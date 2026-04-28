@@ -20,6 +20,7 @@ public class AuthService {
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final OtpService otpService;
     
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -45,15 +46,71 @@ public class AuthService {
         return new AuthResponse(token, user.getEmail(), user.getName(), user.getRole().name());
     }
     
-    public AuthResponse login(LoginRequest request) {
+    @Transactional
+    public OtpAuthResponse login(LoginRequest request) {
+        log.info("Login request received for email: {} with role: {}", request.getEmail(), request.getRole());
+        
+        // Auto-registration: Create user if not found
         User user = userRepository.findByEmail(request.getEmail().toLowerCase())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseGet(() -> {
+                    log.info("User not found, auto-registering: {}", request.getEmail());
+                    User newUser = new User();
+                    newUser.setEmail(request.getEmail().toLowerCase());
+                    newUser.setPassword(passwordEncoder.encode("OTP_USER_" + System.currentTimeMillis())); // Random password
+                    newUser.setName(extractNameFromEmail(request.getEmail()));
+                    
+                    // Set role based on request, default to STUDENT
+                    if (request.getRole() != null && request.getRole().equalsIgnoreCase("ADMIN")) {
+                        newUser.setRole(User.UserRole.ADMIN);
+                    } else {
+                        newUser.setRole(User.UserRole.STUDENT);
+                    }
+                    
+                    User savedUser = userRepository.save(newUser);
+                    log.info("✅ Auto-registered new user: {} with role: {}", savedUser.getEmail(), savedUser.getRole());
+                    return savedUser;
+                });
         
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+        if (request.getOtp() != null && !request.getOtp().isBlank()) {
+            log.info("Verifying OTP for user: {}", user.getEmail());
+            // Verify OTP
+            if (otpService.verifyOtp(user.getEmail(), request.getOtp())) {
+                log.info("OTP verified successfully for: {}", user.getEmail());
+                String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+                return OtpAuthResponse.full(token, user.getEmail(), user.getName(), user.getRole().name());
+            } else {
+                log.error("Invalid OTP for user: {}", user.getEmail());
+                throw new RuntimeException("Invalid or expired OTP");
+            }
+        } else {
+            log.info("Generating and sending OTP to: {}", user.getEmail());
+            // Send OTP (no password needed)
+            try {
+                otpService.generateAndSendOtp(user.getEmail());
+                log.info("OTP sent successfully to: {}", user.getEmail());
+                return OtpAuthResponse.partial(user.getEmail(), user.getName(), user.getRole().name());
+            } catch (Exception e) {
+                log.error("Failed to send OTP to {}: {}", user.getEmail(), e.getMessage(), e);
+                throw new RuntimeException("Failed to send OTP. Please check email configuration.");
+            }
         }
-        
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
-        return new AuthResponse(token, user.getEmail(), user.getName(), user.getRole().name());
+    }
+    
+    // Helper method to extract name from email
+    private String extractNameFromEmail(String email) {
+        String localPart = email.split("@")[0];
+        // Convert john.doe or john_doe to John Doe
+        String name = localPart.replace(".", " ").replace("_", " ");
+        // Capitalize first letter of each word
+        String[] words = name.split(" ");
+        StringBuilder capitalized = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                capitalized.append(Character.toUpperCase(word.charAt(0)))
+                          .append(word.substring(1).toLowerCase())
+                          .append(" ");
+            }
+        }
+        return capitalized.toString().trim();
     }
 }

@@ -24,10 +24,10 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+@PostMapping("/login")
+    public ResponseEntity<OtpAuthResponse> login(@Valid @RequestBody LoginRequest request) {
         log.info("Login attempt for email: {}", request.getEmail());
-        AuthResponse response = authService.login(request);
+        OtpAuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
     }
 
