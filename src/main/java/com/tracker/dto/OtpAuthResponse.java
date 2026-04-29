@@ -10,6 +10,7 @@ public class OtpAuthResponse {
     private String role;
     // token only if !partial
     private String token;
+<<<<<<< HEAD
     private Long studentId;
     private String rollNumber;
     private String department;
@@ -19,12 +20,17 @@ public class OtpAuthResponse {
     
     public static OtpAuthResponse full(String token, String email, String name, String role, Long studentId,
                                        String rollNumber, String department, Integer semester) {
+=======
+    
+    public static OtpAuthResponse full(String token, String email, String name, String role) {
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
         OtpAuthResponse res = new OtpAuthResponse();
         res.partial = false;
         res.token = token;
         res.email = email;
         res.name = name;
         res.role = role;
+<<<<<<< HEAD
         res.studentId = studentId;
         res.rollNumber = rollNumber;
         res.department = department;
@@ -33,13 +39,22 @@ public class OtpAuthResponse {
     }
     
     public static OtpAuthResponse partial(String email, String name, String role, String deliveryMethod, String devOtp) {
+=======
+        return res;
+    }
+    
+    public static OtpAuthResponse partial(String email, String name, String role) {
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
         OtpAuthResponse res = new OtpAuthResponse();
         res.partial = true;
         res.email = email;
         res.name = name;
         res.role = role;
+<<<<<<< HEAD
         res.deliveryMethod = deliveryMethod;
         res.devOtp = devOtp;
+=======
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
         return res;
     }
 }

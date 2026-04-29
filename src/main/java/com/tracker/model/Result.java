@@ -27,12 +27,20 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.EAGER)
+=======
+    @ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
     @JoinColumn(name = "student_id", nullable = false)
     @NotNull(message = "Student is required")
     private Student student;
     
+<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.EAGER)
+=======
+    @ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
     @JoinColumn(name = "assessment_id", nullable = false)
     @NotNull(message = "Assessment is required")
     private Assessment assessment;
@@ -125,4 +133,8 @@ public class Result {
         // Auto-calculate grade
         this.grade = calculateGrade();
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343

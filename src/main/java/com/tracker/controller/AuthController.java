@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+<<<<<<< HEAD
 @CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5174", "http://127.0.0.1:5174", "http://localhost:5175", "http://127.0.0.1:5175"}, allowCredentials = "true")
+=======
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000", "http://localhost:5174", "http://localhost:5175"}, allowCredentials = "true")
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
 public class AuthController {
 
     private final AuthService authService;
@@ -35,4 +39,8 @@ public class AuthController {
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("Auth service is running");
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343

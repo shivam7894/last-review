@@ -12,7 +12,11 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/test")
+<<<<<<< HEAD
 @CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000", "http://127.0.0.1:3000"}, allowCredentials = "true")
+=======
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowCredentials = "true")
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
 public class TestController {
     
     @GetMapping("/health")
@@ -42,4 +46,8 @@ public class TestController {
         response.put("timestamp", LocalDateTime.now());
         return ResponseEntity.ok(response);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343

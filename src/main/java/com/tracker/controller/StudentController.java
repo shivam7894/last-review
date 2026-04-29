@@ -16,7 +16,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/students")
 @RequiredArgsConstructor
+<<<<<<< HEAD
 @CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000", "http://127.0.0.1:3000"}, allowCredentials = "true")
+=======
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowCredentials = "true")
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
 public class StudentController {
     private final StudentService studentService;
     

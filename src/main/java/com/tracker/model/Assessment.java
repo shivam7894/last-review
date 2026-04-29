@@ -30,7 +30,11 @@ public class Assessment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.EAGER)
+=======
+    @ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
     @JoinColumn(name = "course_id", nullable = false)
     @NotNull(message = "Course is required")
     private Course course;
@@ -42,9 +46,12 @@ public class Assessment {
     
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+<<<<<<< HEAD
 
     @Column(name = "learning_outcome", columnDefinition = "TEXT")
     private String learningOutcome;
+=======
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
     
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
@@ -105,4 +112,8 @@ public class Assessment {
             throw new IllegalArgumentException("Passing marks cannot be greater than total marks");
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343

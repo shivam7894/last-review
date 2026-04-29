@@ -1,5 +1,6 @@
 package com.tracker.service;
 
+<<<<<<< HEAD
 import com.tracker.model.Assessment;
 import com.tracker.model.Course;
 import com.tracker.model.Result;
@@ -20,11 +21,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+=======
+import com.tracker.repository.ResultRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
 
 @Service
 @RequiredArgsConstructor
 public class ReportService {
     private final ResultRepository resultRepository;
+<<<<<<< HEAD
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
     private final AssessmentRepository assessmentRepository;
@@ -274,4 +284,14 @@ public class ReportService {
         }
         return BigDecimal.ZERO;
     }
+=======
+
+    public Map<String, Object> getPerformanceReport(Long studentId) {
+        Map<String, Object> report = new HashMap<>();
+        BigDecimal avgPercentage = resultRepository.getAveragePercentageByStudent(studentId).orElse(BigDecimal.ZERO);
+        report.put("averagePercentage", avgPercentage);
+        report.put("results", resultRepository.findByStudentId(studentId));
+        return report;
+    }
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
 }

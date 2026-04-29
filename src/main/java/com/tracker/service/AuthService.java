@@ -43,6 +43,7 @@ public class AuthService {
         }
         
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+<<<<<<< HEAD
         Student student = request.getRole() == User.UserRole.STUDENT
                 ? studentRepository.findByUserId(user.getId()).orElse(null)
                 : null;
@@ -56,6 +57,9 @@ public class AuthService {
                 student != null ? student.getDepartment() : null,
                 student != null ? student.getSemester() : null
         );
+=======
+        return new AuthResponse(token, user.getEmail(), user.getName(), user.getRole().name());
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
     }
     
     @Transactional
@@ -89,6 +93,7 @@ public class AuthService {
             if (otpService.verifyOtp(user.getEmail(), request.getOtp())) {
                 log.info("OTP verified successfully for: {}", user.getEmail());
                 String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+<<<<<<< HEAD
                 Student student = ensureStudentProfile(user);
                 return OtpAuthResponse.full(
                         token,
@@ -100,6 +105,9 @@ public class AuthService {
                         student != null ? student.getDepartment() : null,
                         student != null ? student.getSemester() : null
                 );
+=======
+                return OtpAuthResponse.full(token, user.getEmail(), user.getName(), user.getRole().name());
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
             } else {
                 log.error("Invalid OTP for user: {}", user.getEmail());
                 throw new RuntimeException("Invalid or expired OTP");
@@ -108,6 +116,7 @@ public class AuthService {
             log.info("Generating and sending OTP to: {}", user.getEmail());
             // Send OTP (no password needed)
             try {
+<<<<<<< HEAD
                 OtpService.OtpDelivery delivery = otpService.generateAndSendOtp(user.getEmail());
                 log.info("OTP sent successfully to: {}", user.getEmail());
                 return OtpAuthResponse.partial(
@@ -117,6 +126,11 @@ public class AuthService {
                         delivery.deliveryMethod(),
                         delivery.devOtp()
                 );
+=======
+                otpService.generateAndSendOtp(user.getEmail());
+                log.info("OTP sent successfully to: {}", user.getEmail());
+                return OtpAuthResponse.partial(user.getEmail(), user.getName(), user.getRole().name());
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
             } catch (Exception e) {
                 log.error("Failed to send OTP to {}: {}", user.getEmail(), e.getMessage(), e);
                 throw new RuntimeException("Failed to send OTP. Please check email configuration.");
@@ -141,6 +155,7 @@ public class AuthService {
         }
         return capitalized.toString().trim();
     }
+<<<<<<< HEAD
 
     private Student ensureStudentProfile(User user) {
         if (user.getRole() != User.UserRole.STUDENT) {
@@ -153,4 +168,6 @@ public class AuthService {
                     return studentRepository.save(student);
                 });
     }
+=======
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
 }

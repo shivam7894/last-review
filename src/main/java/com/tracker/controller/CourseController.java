@@ -9,7 +9,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+<<<<<<< HEAD
 @CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173"})
+=======
+@CrossOrigin(origins = "http://localhost:5173")
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
 @RestController
 @RequestMapping("/api/courses")
 @RequiredArgsConstructor

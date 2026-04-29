@@ -25,12 +25,20 @@ public class LearningProgress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.EAGER)
+=======
+    @ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
     @JoinColumn(name = "student_id", nullable = false)
     @NotNull(message = "Student is required")
     private Student student;
     
+<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.EAGER)
+=======
+    @ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
     @JoinColumn(name = "course_id", nullable = false)
     @NotNull(message = "Course is required")
     private Course course;
@@ -104,4 +112,8 @@ public class LearningProgress {
             default -> "Unknown";
         };
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bcdac5e4088a6d85673b02eacfbaa20c07a73343
